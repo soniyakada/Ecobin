@@ -1,13 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
-import UserDashboard from "./pages/UserDashboard";
-import CreatePickupRequest from "./pages/CreatePickupRequest";
-import AdminDashboard from "./pages/AdminDashboard";
-import AllPickup from "./pages/AllPickup";
-import CreateStaff from "./pages/CreateStaff";
-import AllStaffPage from "./pages/AllStaffPage";
+import Home from "./pages/FrontPages/Home";
+import Signin from "./pages/FrontPages/Signin";
+import Signup from "./pages/FrontPages/Signup";
+import UserDashboard from "./pages/UserPages/UserDashboard";
+import CreatePickupRequest from "./pages/UserPages/CreatePickupRequest";
+import AdminDashboard from "./pages/AdminPages/AdminDashboard";
+import AllPickup from "./pages/AdminPages/AllPickup";
+import CreateStaff from "./pages/AdminPages/CreateStaff";
+import AllStaffPage from "./pages/AdminPages/AllStaffPage";
+import History from "./pages/AdminPages/History";
+import Scheduled from "./pages/AdminPages/Scheduled";
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
            <Route path="/admin/pickup-requests" element={<AllPickup/>}></Route>
            <Route path="/admin/create-staff" element={<CreateStaff />}/>
            <Route path="/admin/all-staff" element={<AllStaffPage/>}></Route>
+           <Route path="/admin/history" element={<History/>}></Route>
+            <Route path="/admin/scheduled" element={<Scheduled/>}></Route>
           </Routes>
         </div>
       </Router>

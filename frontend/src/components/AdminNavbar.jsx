@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const AdminNavbar = () => {
   return (
@@ -8,28 +8,64 @@ const AdminNavbar = () => {
         <h1 className="text-xl font-bold">Admin Dashboard</h1>
         <ul className="flex gap-6 text-sm">
           <li>
-            <Link
+            <NavLink
               to="/admin/pickup-requests"
-              className="hover:text-yellow-300 transition duration-200"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-yellow-400 font-semibold border-b-2 border-yellow-400"
+                  : "hover:text-yellow-300 transition duration-200"
+              }
             >
-              View All Pickup Requests
-            </Link>
+              Pickup Requests
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/admin/create-staff"
-              className="hover:text-yellow-300 transition duration-200"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-yellow-400 font-semibold border-b-2 border-yellow-400"
+                  : "hover:text-yellow-300 transition duration-200"
+              }
             >
               Create Staff
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/admin/all-staff"
-              className="hover:text-yellow-300 transition duration-200"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-yellow-400 font-semibold border-b-2 border-yellow-400"
+                  : "hover:text-yellow-300 transition duration-200"
+              }
             >
               All Staff
-            </Link>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/history"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-yellow-400 font-semibold border-b-2 border-yellow-400"
+                  : "hover:text-yellow-300 transition duration-200"
+              }
+            >
+              History
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/admin/scheduled"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-yellow-400 font-semibold border-b-2 border-yellow-400"
+                  : "hover:text-yellow-300 transition duration-200"
+              }
+            >
+              Scheduled
+            </NavLink>
           </li>
         </ul>
       </div>

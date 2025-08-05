@@ -3,7 +3,9 @@ import {
   createPickupRequest,
   assignStaff,
   getAllPickupRequests,
-  getUserPickupRequests
+  getUserPickupRequests,
+  deletePickupRequest,
+  markPickupCompleted
 } from '../controllers/pickupController.js';
 import authenticate from '../middlewares/authenticate.js';
 import { authorizeRoles } from '../middlewares/authorizeRoles.js';
@@ -22,5 +24,9 @@ router.get('/all',authenticate ,authorizeRoles('admin'),getAllPickupRequests);
 
 // Admin: Assign staff to pickup request
 router.put('/assign/:requestId',authenticate, authorizeRoles('admin'),assignStaff);
+router.delete('/pickup/:id', deletePickupRequest);
+router.put("/pickups/:id/complete", markPickupCompleted);
+
+
 
 export default router;

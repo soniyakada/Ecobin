@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import AdminNavbar from '../../components/AdminNavbar'
 
 const CreateStaff = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,7 @@ const CreateStaff = () => {
     e.preventDefault();
     setSuccessMsg("");
     try {
-      const res = await axios.post("http://localhost:5000/api/staff/createstaff", formData);
+       await axios.post("http://localhost:5000/api/staff/createstaff", formData);
       setSuccessMsg("Staff Created Successfully!");
       setFormData({ name: "", phone: "", assignedZone: "" });
     } catch (err) {
@@ -26,6 +27,8 @@ const CreateStaff = () => {
   };
 
   return (
+    <>
+   < AdminNavbar/>
     <div className="max-w-md mx-auto mt-10 p-4 shadow-md rounded bg-white">
       <h2 className="text-xl font-bold mb-4">Create Staff</h2>
       {successMsg && <div className="mb-2 text-green-600">{successMsg}</div>}
@@ -65,6 +68,7 @@ const CreateStaff = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 

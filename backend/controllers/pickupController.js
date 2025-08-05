@@ -42,6 +42,9 @@ export const assignStaff = async (req, res) => {
     pickup.isAssigned = true; // Optional: track assignment flag
     await pickup.save();
 
+    staff.isAvailable = false;
+    await staff.save();
+
     res.status(200).json({ message: 'Staff assigned successfully', pickup });
   } catch (error) {
     console.error(error);
@@ -74,6 +77,39 @@ export const  getUserPickupRequests = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const deletePickupRequest = async (req, res) => {
+  try {
+    const deleted = await PickupRequest.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: 'Pickup not found' });
+    res.status(200).json({ message: 'Pickup deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const markPickupCompleted = async (req, res) => {
+  const { id } = req.params;
+  const { staffId } = req.body;
+ console.log("-=-=",staffId);
+  console.log("-=id-=",id);
+  try {
+    const pickup = await PickupRequest.findById(id);
+    if (!pickup) return res.status(404).json({ message: "Pickup not found" });
+  
+    pickup.status = "completed";
+    await pickup.save();
+   console.log("888")
+    // Update staff to available again
+    await Staff.findByIdAndUpdate(staffId, { isAvailable: true });
+   
+    res.status(200).json({ message: "Pickup marked as completed" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 
 
 
