@@ -7,6 +7,7 @@ import {
   deletePickupRequest,
   markPickupCompleted
 } from '../controllers/pickupController.js';
+import { sendSupportMailController } from '../Mails/mailcontroller.js';
 import authenticate from '../middlewares/authenticate.js';
 import { authorizeRoles } from '../middlewares/authorizeRoles.js';
 import upload from '../middlewares/upload.js';
@@ -26,6 +27,7 @@ router.get('/all',authenticate ,authorizeRoles('admin'),getAllPickupRequests);
 router.put('/assign/:requestId',authenticate, authorizeRoles('admin'),assignStaff);
 router.delete('/pickup/:id', deletePickupRequest);
 router.put("/pickups/:id/complete", markPickupCompleted);
+router.post('/send-support', authenticate,sendSupportMailController);
 
 
 

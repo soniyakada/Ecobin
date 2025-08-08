@@ -9,6 +9,7 @@ const CreateStaff = () => {
     assignedZone: ""
   });
   const [successMsg, setSuccessMsg] = useState("");
+  const BE_URL = import.meta.env.VITE_BE_URL;
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value });
@@ -18,7 +19,7 @@ const CreateStaff = () => {
     e.preventDefault();
     setSuccessMsg("");
     try {
-       await axios.post("http://localhost:5000/api/staff/createstaff", formData);
+       await axios.post(`${BE_URL}/api/staff/createstaff`, formData);
       setSuccessMsg("Staff Created Successfully!");
       setFormData({ name: "", phone: "", assignedZone: "" });
     } catch (err) {

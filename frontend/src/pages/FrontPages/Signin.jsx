@@ -2,13 +2,17 @@ import React, { useState } from "react";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from '../../context/AuthContext.jsx'
 
 const Signin = () => {
   const navigate = useNavigate();
+   const { setUser } = useAuth();
+     const BE_URL = import.meta.env.VITE_BE_URL;
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,15 +21,15 @@ const Signin = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${BE_URL}/api/auth/login`,
         formData,
         { withCredentials: true }
       );
-      alert("Login successful");
+      setUser(res.data.user);
       console.log(res.data.user.role);
       const role = res.data.user.role;
       if(role === "user"){
-       navigate('/userDashboard')
+       navigate('/user/home')
       }else if (role === 'admin'){
         navigate('/adminDashboard')
       }

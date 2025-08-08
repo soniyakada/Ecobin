@@ -8,6 +8,7 @@ import { MdDelete } from "react-icons/md";
 const History = () => {
   const [requests, setRequests] = useState([]);
     const [previewImage, setPreviewImage] = useState(null);
+    const BE_URL = import.meta.env.VITE_BE_URL;
 
   useEffect(() => {
     fetchPickupRequests();
@@ -15,7 +16,7 @@ const History = () => {
 
   const fetchPickupRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/pickup/all', {
+      const res = await axios.get(`${BE_URL}/api/pickup/all`, {
         withCredentials: true,
       });
       console.log("res", res);
@@ -29,7 +30,7 @@ const History = () => {
   if (!window.confirm("Are you sure you want to delete this pickup request?")) return;
 
   try {
-    await axios.delete(`http://localhost:5000/api/pickup/pickup/${id}`);
+    await axios.delete(`${BE_URL}/api/pickup/pickup/${id}`);
     alert('Deleted successfully');
     fetchPickupRequests(); // Refresh the list
   } catch (error) {

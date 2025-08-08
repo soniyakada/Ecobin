@@ -5,11 +5,12 @@ import AdminNavbar from '../../components/AdminNavbar';
 const AllStaffPage = () => {
   const [staffList, setStaffList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const BE_URL = import.meta.env.VITE_BE_URL;
 
   useEffect(() => {
     const fetchStaff = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/staff/allstaff'); // adjust URL if needed
+        const response = await axios.get(`${BE_URL}/api/staff/allstaff`); // adjust URL if needed
         setStaffList(response.data);
       } catch (error) {
         console.error('Error fetching staff:', error);

@@ -6,6 +6,7 @@ const pickupRequestSchema = new mongoose.Schema({
   wasteType: { type: String, enum: ['plastic', 'organic', 'metal', 'e-waste'], required: true },
   imageUrl: { type: String },
   status: { type: String, enum: ['pending', 'scheduled', 'completed'], default: 'pending' },
+  notes:{type:String},
   isAssigned: { type: Boolean, default: false },
   staff: {
   type: mongoose.Schema.Types.ObjectId,

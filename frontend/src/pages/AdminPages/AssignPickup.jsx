@@ -5,6 +5,7 @@ import axios from 'axios';
 const AssignPickup = ({ requestId, onClose }) => {
   const [staffList, setStaffList] = useState([]);
   const [selectedStaff, setSelectedStaff] = useState('');
+  const BE_URL = import.meta.env.VITE_BE_URL;
 
   useEffect(() => {
     fetchAllStaff();
@@ -12,7 +13,7 @@ const AssignPickup = ({ requestId, onClose }) => {
 
   const fetchAllStaff = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/staff/allstaff', {
+      const res = await axios.get(`${BE_URL}/api/staff/allstaff`, {
         withCredentials: true,
       });
       setStaffList(res.data);
@@ -24,7 +25,7 @@ const AssignPickup = ({ requestId, onClose }) => {
   const handleAssign = async () => {
     try {
       await axios.put(
-        `http://localhost:5000/api/pickup/assign/${requestId}`,
+        `${BE_URL}/api/pickup/assign/${requestId}`,
         { staffId: selectedStaff },
         { withCredentials: true }
       );

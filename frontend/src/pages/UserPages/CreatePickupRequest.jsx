@@ -8,6 +8,7 @@ const CreatePickupRequest = () => {
     wasteType: '',
     image: null,
   });
+  const BE_URL = import.meta.env.VITE_BE_URL;
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,7 +27,7 @@ const CreatePickupRequest = () => {
     if (form.image) data.append('image', form.image);
 
     try {
-      await axios.post('/api/pickups', data);
+      await axios.post(`${BE_URL}/api/pickups`, data);
       alert('Pickup request raised successfully!');
       setForm({ requestedDate: '', address: '', wasteType: '', image: null });
     } catch (err) {

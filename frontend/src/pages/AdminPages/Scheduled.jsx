@@ -17,7 +17,7 @@ const Scheduled = () => {
 
   const fetchPickupRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/pickup/all', {
+      const res = await axios.get(`${BE_URL}/api/pickup/all`, {
         withCredentials: true,
       });
       console.log("res", res);
