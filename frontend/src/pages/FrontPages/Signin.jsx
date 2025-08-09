@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, Leaf, ArrowRight } from "lucide-react";
 import Navbar from "../../components/Navbar";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useAuth } from '../../context/AuthContext.jsx';
+const BE_URL = import.meta.env.VITE_BE_URL;
 
 const Signin = () => {
+  const { user ,setUser} = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -20,7 +25,7 @@ const Signin = () => {
       setErrors({ ...errors, [e.target.name]: "" });
     }
   };
-
+  console.log("***",user);
   const validateForm = () => {
     const newErrors = {};
     
@@ -38,17 +43,17 @@ const Signin = () => {
     
     setIsLoading(true);
     try {
-      // Your axios call here
-      // const res = await axios.post(`${BE_URL}/api/auth/login`, formData, { withCredentials: true });
-      // setUser(res.data.user);
-      // const role = res.data.user.role;
-      // if(role === "user") navigate('/user/home')
-      // else if (role === 'admin') navigate('/adminDashboard')
+    
+      const res = await axios.post(`${BE_URL}/api/auth/login`, formData, { withCredentials: true });
+      setUser(res.data.user);
+      const role = res.data.user.role;
+      if(role === "user") navigate('/user/home')
+      else if (role === 'admin') navigate('/adminDashboard')
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       alert("Login successful!");
-    } catch (err) {
+    } catch {
       alert("Login failed. Please try again.");
     } finally {
       setIsLoading(false);

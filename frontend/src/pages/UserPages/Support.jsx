@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserNavbar from '../../components/UserNavbar';
 import { useAuth } from '../../context/AuthContext';
+import { MessageCircle, Send, User, Mail, FileText, MessageSquare } from 'lucide-react';
 
 const Support = () => {
   const { user } = useAuth(); // Get user from context
@@ -41,7 +42,7 @@ const Support = () => {
 
     setLoading(true);
     try {
-      await axios.post(`${BE_URL}/api/pickup/send-support`, formData,{withCredentials:true});
+      await axios.post(`${BE_URL}/api/pickup/send-support`, formData, { withCredentials: true });
 
       alert("✅ Your message has been sent successfully. We'll get back to you soon!");
       setFormData({
@@ -61,66 +62,116 @@ const Support = () => {
   return (
     <>
       <UserNavbar />
-      <div className="max-w-2xl mx-auto mt-10 p-6 shadow-lg border rounded-lg bg-white">
-        <h2 className="text-3xl font-bold mb-6 text-center text-blue-700">
-          Contact Support <span className="text-sm text-gray-500 block">by Soniya Kada</span>
-        </h2>
-
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label className="block mb-1 font-medium">Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              readOnly
-              className="w-full border px-4 py-2 rounded-md bg-gray-100 text-gray-700"
-            />
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-50 py-12 px-4">
+        <div className="max-w-4xl mx-auto">
+          {/* Header Section */}
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl shadow-lg mb-6">
+              <MessageCircle className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-4">
+              Contact Support
+            </h1>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              We're here to help! Send us a message and we'll respond as soon as possible.
+            </p>
+            <div className="mt-4 text-sm text-gray-500">
+              Developed by <span className="font-semibold text-emerald-600">Soniya Kada</span>
+            </div>
           </div>
 
-          <div>
-            <label className="block mb-1 font-medium">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              readOnly
-              className="w-full border px-4 py-2 rounded-md bg-gray-100 text-gray-700"
-            />
+          {/* Support Form Card */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8 md:p-10">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Name Field */}
+              <div className="space-y-2">
+                <label className="flex items-center text-gray-700 font-semibold text-sm">
+                  <User className="w-4 h-4 mr-2 text-emerald-600" />
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  readOnly
+                  className="w-full border border-gray-200 px-4 py-3 rounded-xl bg-gray-50 text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200"
+                />
+              </div>
+
+              {/* Email Field */}
+              <div className="space-y-2">
+                <label className="flex items-center text-gray-700 font-semibold text-sm">
+                  <Mail className="w-4 h-4 mr-2 text-emerald-600" />
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  readOnly
+                  className="w-full border border-gray-200 px-4 py-3 rounded-xl bg-gray-50 text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200"
+                />
+              </div>
+
+              {/* Subject Field */}
+              <div className="space-y-2">
+                <label className="flex items-center text-gray-700 font-semibold text-sm">
+                  <FileText className="w-4 h-4 mr-2 text-emerald-600" />
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  name="subject"
+                  required
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="What can we help you with?"
+                  className="w-full border border-gray-200 px-4 py-3 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 hover:border-gray-300"
+                />
+              </div>
+
+              {/* Message Field */}
+              <div className="space-y-2">
+                <label className="flex items-center text-gray-700 font-semibold text-sm">
+                  <MessageSquare className="w-4 h-4 mr-2 text-emerald-600" />
+                  Message
+                </label>
+                <textarea
+                  name="message"
+                  required
+                  rows="6"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Please describe your issue or question in detail..."
+                  className="w-full border border-gray-200 px-4 py-3 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 hover:border-gray-300 resize-none"
+                ></textarea>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-emerald-600 to-green-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-emerald-700 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                >
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Sending Message...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-5 h-5" />
+                      <span>Send Message</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
 
-          <div>
-            <label className="block mb-1 font-medium">Subject</label>
-            <input
-              type="text"
-              name="subject"
-              required
-              value={formData.subject}
-              onChange={handleChange}
-              className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium">Message</label>
-            <textarea
-              name="message"
-              required
-              rows="5"
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full border px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-60"
-          >
-            {loading ? "Sending..." : "Submit"}
-          </button>
-        </form>
+     
+        </div>
       </div>
     </>
   );
