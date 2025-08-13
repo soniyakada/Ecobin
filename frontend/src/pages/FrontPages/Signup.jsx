@@ -58,7 +58,7 @@ const Signup = () => {
 
   const handleGoogleLogin = () => {
     // Google OAuth2 integration - redirect to your backend OAuth endpoint
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = "http://localhost:5000/api/auth/google/callback";
   };
 
   return (

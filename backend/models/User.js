@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
+  googleId: { type: String },
   name: {
     type: String,
     required: true,
@@ -21,7 +22,13 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
-  address: String,
+  address: {
+    type: String,
+    // Make address not required for Google users
+    required: function() {
+      return !this.googleId; // Only required if not a Google user
+    }
+  },
 }, { timestamps: true });
 
 

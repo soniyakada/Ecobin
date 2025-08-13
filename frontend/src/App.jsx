@@ -14,6 +14,7 @@ import Mypickups from "./pages/UserPages/Mypickup";
 import UserProfile from "./pages/UserPages/UserProfile";
 import Support from "./pages/UserPages/Support";
 import UserHome from "./pages/UserPages/UserHome";
+import NotFound from "./pages/FrontPages/NotFound";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
            <Route path="/user/profile" element={<UserProfile/>}></Route>
            <Route path="/user/contactus" element={<Support/>}></Route>
            <Route path="/user/home" element={<UserHome/>}></Route>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>

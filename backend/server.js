@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from './routes/authRoutes.js'
 import pickupRoutes from './routes/pickupRoutes.js'
 import staffRoutes from './routes/staffRoutes.js'
+import passport from "./config/googleAuth.js"; // Google strategy setup
 
 
 const app = express();
@@ -20,11 +21,16 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
+
+// Only initialize passport 
+app.use(passport.initialize());
+
 app.use('/uploads', express.static('uploads'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/pickup', pickupRoutes);
 app.use('/api/staff',staffRoutes);
+
 
 //route to check
 app.get('/', (req,res)=>{
