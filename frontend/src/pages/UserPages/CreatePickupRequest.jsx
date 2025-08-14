@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
+import Swal  from 'sweetalert2';
 
 const CreatePickupRequest = () => {
   const [form, setForm] = useState({
@@ -28,12 +29,20 @@ const CreatePickupRequest = () => {
 
     try {
       await axios.post(`${BE_URL}/api/pickups`, data);
-      alert('Pickup request raised successfully!');
+        Swal.fire({
+     title: "Pickup request raised successfully!",
+     icon: "success",
+     timer: 2000,
+     showConfirmButton: false,
+      });
       setForm({ requestedDate: '', address: '', wasteType: '', image: null });
     } catch (err) {
       console.error(err);
-      alert('Failed to raise request');
-    }
+      Swal.fire({
+        title: "Failed to raise request",
+        icon: "error",
+        confirmButtonText: "OK",
+      });    }
   };
 
   return (

@@ -4,15 +4,13 @@ dotenv.config();
 
 export const sendSupportMailController = async (req, res) => {
   const {name,email, subject, message } = req.body;
-  console.log("--message--",req.body)
   // user from token (middleware se)
   const user = req.user;
 
   if (!user || !subject || !message) {
     return res.status(400).json({ error: "Please fill all fields." });
   }
-  console.log("&&&",user)
-
+  
   const mailOptions = {
     from: email,
     to: "soniyaakada@gmail.com", // your personal email
@@ -26,7 +24,6 @@ export const sendSupportMailController = async (req, res) => {
       <p>${message}</p>
     `,
   };
-  console.log("--",mailOptions)
   try {
     await transporter.sendMail(mailOptions);
     res.status(200).json({ success: "Message sent successfully!" });

@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { useAuth } from '../../context/AuthContext.jsx';
+import { useNavigate } from 'react-router-dom';
 import UserNavbar from '../../components/UserNavbar';
-import { Package, MapPin, Calendar, FileText, Image, Truck, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Package, MapPin, Calendar, Image, Truck, Clock, CheckCircle, XCircle } from 'lucide-react';
 
 const Mypickups = () => {
-  // const { user } = useAuth();
+  
+  const navigate = useNavigate();
   const [pickups, setPickups] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +17,6 @@ const Mypickups = () => {
         const res = await axios.get(`${BE_URL}/api/pickup/my-requests`, {
           withCredentials: true,
         });
-        console.log("-0-=-",res.data);
         setPickups(res.data);
       } catch (error) {
         console.error('Error fetching pickups:', error);
@@ -90,7 +90,9 @@ const Mypickups = () => {
               </div>
               <h3 className="text-2xl font-semibold text-gray-800 mb-4">No Pickup Requests Yet</h3>
               <p className="text-gray-600 mb-6">You haven't made any pickup requests yet. Start by creating your first request!</p>
-              <button className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg">
+              <button className="bg-gradient-to-r from-emerald-600 to-green-600 text-white px-6 py-3 rounded-xl font-semibold hover:from-emerald-700 hover:to-green-700 transition-all duration-200 transform hover:scale-105 shadow-lg" onClick={()=>{
+                 navigate("/user/request-pickup")
+              }}>
                 Request Pickup
               </button>
             </div>

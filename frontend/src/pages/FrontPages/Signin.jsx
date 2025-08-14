@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, Leaf, ArrowRight } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 const BE_URL = import.meta.env.VITE_BE_URL;
 
 const Signin = () => {
-  const { user ,setUser} = useAuth();
+  const { setUser} = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,7 +25,6 @@ const Signin = () => {
       setErrors({ ...errors, [e.target.name]: "" });
     }
   };
-  console.log("***",user);
   const validateForm = () => {
     const newErrors = {};
     
@@ -52,9 +51,8 @@ const Signin = () => {
       
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
-      alert("Login successful!");
     } catch {
-      alert("Login failed. Please try again.");
+      console.error("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +60,7 @@ const Signin = () => {
 
   const handleGoogleLogin = () => {
     // Google OAuth2 integration
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${BE_URL}/api/auth/google/callback`;
   };
 
   const handleForgotPassword = () => {

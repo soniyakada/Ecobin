@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import AssignPickup from './AssignPickup';
 import AdminNavbar from '../../components/AdminNavbar'
@@ -16,10 +16,6 @@ const AllPickup = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Debug: Check BE_URL value
-    console.log('BE_URL from env:', BE_URL);
-    console.log('All env vars:', import.meta.env);
-    
     fetchPickupRequests();
   }, []);
 
@@ -35,8 +31,6 @@ const AllPickup = () => {
     const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
     
     const fullUrl = `${normalizedBaseUrl}${normalizedEndpoint}`;
-    
-    console.log('Built URL:', fullUrl);
     
     // Validate URL format
     try {
@@ -73,8 +67,6 @@ const AllPickup = () => {
       const res = await axios.get(apiUrl, {
         withCredentials: true,
       });
-      
-      console.log("Response:", res);
       setRequests(res.data);
     } catch (err) {
       console.error('Failed to fetch requests:', err);
@@ -98,12 +90,10 @@ const AllPickup = () => {
       await axios.delete(apiUrl, {
         withCredentials: true,
       });
-      
-      alert('Deleted successfully');
       fetchPickupRequests();
     } catch (error) {
       console.error("Delete failed", error);
-      alert(`Something went wrong while deleting: ${error.message}`);
+
     }
   };
 

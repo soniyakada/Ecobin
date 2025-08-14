@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, MapPin, Leaf } from "lucide-react";
 import Navbar from "../../components/Navbar";
+import Swal from "sweetalert2";
+import axios from "axios";
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +12,7 @@ const Signup = () => {
     password: "",
     address: "",
   });
-  
+    const BE_URL = import.meta.env.VITE_BE_URL;
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -42,15 +45,17 @@ const Signup = () => {
     
     setIsLoading(true);
     try {
-      // Your axios call here
-      // const res = await axios.post("http://localhost:5000/api/auth/register", formData);
-      // alert(res.data.msg);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      alert("Registration successful!");
+     
+      await axios.post(`${BE_URL}/api/auth/register`, formData);
+   
+      Swal.fire({
+        title: "Registration successful!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
     } catch (err) {
-      alert("Error signing up. Please try again.");
+      console.error("Error signing up. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -58,7 +63,7 @@ const Signup = () => {
 
   const handleGoogleLogin = () => {
     // Google OAuth2 integration - redirect to your backend OAuth endpoint
-    window.location.href = "http://localhost:5000/api/auth/google/callback";
+    window.location.href = `${BE_URL}/api/auth/google/callback`;
   };
 
   return (

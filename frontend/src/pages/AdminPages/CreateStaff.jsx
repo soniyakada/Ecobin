@@ -23,7 +23,7 @@ const CreateStaff = () => {
       setSuccessMsg("Staff Created Successfully!");
       setFormData({ name: "", phone: "", assignedZone: "" });
     } catch (err) {
-      alert(" Failed to create staff: " + err.response?.data?.message || err.message);
+      console.error(" Failed to create staff: " + err.response?.data?.message || err.message);
     }
   };
 

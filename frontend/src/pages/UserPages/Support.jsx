@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserNavbar from '../../components/UserNavbar';
 import { useAuth } from '../../context/AuthContext';
 import { MessageCircle, Send, User, Mail, FileText, MessageSquare } from 'lucide-react';
+import Swal from 'sweetalert2';
 
 const Support = () => {
   const { user } = useAuth(); // Get user from context
@@ -44,7 +45,13 @@ const Support = () => {
     try {
       await axios.post(`${BE_URL}/api/pickup/send-support`, formData, { withCredentials: true });
 
-      alert("✅ Your message has been sent successfully. We'll get back to you soon!");
+      Swal.fire({
+  title: "Your message has been sent successfully.",
+  text: "We'll get back to you soon!",
+  icon: "success",
+  timer: 3000,
+  showConfirmButton: false,
+});
       setFormData({
         name: user.name || '',
         email: user.email || '',
@@ -53,7 +60,6 @@ const Support = () => {
       });
     } catch (error) {
       console.error("Error sending support message:", error);
-      alert("❌ Failed to send message. Please try again later.");
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 //Pickup history if they are completed
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminNavbar from '../../components/AdminNavbar'
 import { FaClipboardCheck } from "react-icons/fa";
@@ -20,7 +20,6 @@ const Scheduled = () => {
       const res = await axios.get(`${BE_URL}/api/pickup/all`, {
         withCredentials: true,
       });
-      console.log("res", res);
       setRequests(res.data);
     } catch (err) {
       console.error('Failed to fetch requests:', err.message);
@@ -28,17 +27,12 @@ const Scheduled = () => {
   };
 
   const handleMarkCompleted = async (pickupId, staffId) => {
-    console.log("staff",staffId);
-      console.log("pickupId",pickupId);
   try {
     await axios.put(`${BE_URL}/api/pickup/pickups/${pickupId}/complete`, {
       staffId: staffId
     });
-    alert("Marked as Completed");
-    // Refresh the list (optional)
   } catch (err) {
     console.error(err);
-    alert("Failed to update status");
   }
 };
 
@@ -81,11 +75,11 @@ const Scheduled = () => {
                        src={
                          req.imageUrl.startsWith("http")
                            ? req.imageUrl
-                           : `http://localhost:5000${req.imageUrl}`
+                           : `${BE_URL}${req.imageUrl}`
                        }
                        alt="Uploaded"
                        className="mt-2 w-32 h-32 object-cover rounded cursor-pointer"
-                       onClick={() => setPreviewImage(req.imageUrl.startsWith("http") ? req.imageUrl : `http://localhost:5000${req.imageUrl}`)}
+                       onClick={() => setPreviewImage(req.imageUrl.startsWith("http") ? req.imageUrl : `${BE_URL}${req.imageUrl}`)}
                      />
                    )}
                    </td>

@@ -1,5 +1,5 @@
 // src/components/AssignPickup.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const AssignPickup = ({ requestId, onClose }) => {
@@ -29,11 +29,9 @@ const AssignPickup = ({ requestId, onClose }) => {
         { staffId: selectedStaff },
         { withCredentials: true }
       );
-      alert('Pickup request assigned successfully!');
       onClose();
     } catch (err) {
       console.error('Failed to assign staff:', err.message);
-      alert('Failed to assign staff.');
     }
   };
 

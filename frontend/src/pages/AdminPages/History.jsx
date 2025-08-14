@@ -1,9 +1,10 @@
 //Pickup history if they are completed
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminNavbar from '../../components/AdminNavbar'
 import { MdDelete } from "react-icons/md";
+import Swal from 'sweetalert2'
 
 const History = () => {
   const [requests, setRequests] = useState([]);
@@ -19,7 +20,6 @@ const History = () => {
       const res = await axios.get(`${BE_URL}/api/pickup/all`, {
         withCredentials: true,
       });
-      console.log("res", res);
       setRequests(res.data);
     } catch (err) {
       console.error('Failed to fetch requests:', err.message);
@@ -31,11 +31,22 @@ const History = () => {
 
   try {
     await axios.delete(`${BE_URL}/api/pickup/pickup/${id}`);
-    alert('Deleted successfully');
+  
+  Swal.fire({
+    title: "Success!",
+    text: "Deleted successfully",
+    icon: "success",
+    confirmButtonText: "OK"
+  });
     fetchPickupRequests(); // Refresh the list
   } catch (error) {
     console.error("Delete failed", error);
-    alert('Something went wrong while deleting');
+  Swal.fire({
+    title: "Error!",
+    text: "Something went wrong while deleting",
+    icon: "error",
+    confirmButtonText: "OK"
+  });
   }
 };
  return (
@@ -77,11 +88,11 @@ const History = () => {
                        src={
                          req.imageUrl.startsWith("http")
                            ? req.imageUrl
-                           : `http://localhost:5000${req.imageUrl}`
+                           : `${BE_URL}${req.imageUrl}`
                        }
                        alt="Uploaded"
                        className="mt-2 w-32 h-32 object-cover rounded cursor-pointer"
-                       onClick={() => setPreviewImage(req.imageUrl.startsWith("http") ? req.imageUrl : `http://localhost:5000${req.imageUrl}`)}
+                       onClick={() => setPreviewImage(req.imageUrl.startsWith("http") ? req.imageUrl : `${BE_URL}${req.imageUrl}`)}
                      />
                    )}
                    </td>

@@ -16,7 +16,6 @@ export const createPickupRequest = async (req, res) => {
       notes,
       imageUrl: req.file ? `/uploads/${req.file.filename}` : '', // assuming multer uploads here
     });
-    console.log("-----newRequest",newRequest);
 
     await newRequest.save();
     res.status(201).json({ msg: 'Pickup request created', newRequest });
@@ -59,8 +58,6 @@ export const getAllPickupRequests = async (req, res) => {
     const requests = await PickupRequest.find()
       .populate('user', 'name email')
       .populate('staff', 'name phone'); // lowercase 'staff'
-
-    console.log("Requests:", requests);
     res.status(200).json(requests);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -91,15 +88,12 @@ export const deletePickupRequest = async (req, res) => {
 export const markPickupCompleted = async (req, res) => {
   const { id } = req.params;
   const { staffId } = req.body;
- console.log("-=-=",staffId);
-  console.log("-=id-=",id);
   try {
     const pickup = await PickupRequest.findById(id);
     if (!pickup) return res.status(404).json({ message: "Pickup not found" });
   
     pickup.status = "completed";
     await pickup.save();
-   console.log("888")
     // Update staff to available again
     await Staff.findByIdAndUpdate(staffId, { isAvailable: true });
    
