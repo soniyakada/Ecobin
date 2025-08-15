@@ -57,8 +57,8 @@ router.get("/google/callback", (req, res, next) => {
       // Set JWT token in httpOnly cookie
       res.cookie("token", token, {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+         secure: true,           // Set true in production (HTTPS)
+      sameSite: "None",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
