@@ -102,19 +102,6 @@ const AllPickup = () => {
     setPreviewImage(fullImageUrl);
   };
 
-  if (loading) {
-    return (
-      <>
-        <AdminNavbar />
-        <div className="p-6 max-w-7xl mx-auto">
-          <div className="flex justify-center items-center h-64">
-            <p className="text-gray-600">Loading pickup requests...</p>
-          </div>
-        </div>
-      </>
-    );
-  }
-
   if (error) {
     return (
       <>
@@ -145,9 +132,7 @@ const AllPickup = () => {
       <div className="p-4 sm:p-6 max-w-7xl mx-auto">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Admin Dashboard - Pickup Requests</h1>
 
-        {requests.length === 0 ? (
-          <p className="text-gray-600 text-center py-8">No pickup requests found.</p>
-        ) : (
+        
           <>
             {/* Desktop Table View */}
             <div className="hidden lg:block overflow-x-auto rounded-lg shadow">
@@ -163,64 +148,83 @@ const AllPickup = () => {
                     <th className="px-4 py-2 text-left">Actions</th>
                   </tr>
                 </thead>
-                <tbody>
-                  {requests.filter((req) => req.status === 'pending').map((req) => (
-                    <tr key={req._id} className="border-t border-gray-200 hover:bg-gray-50">
-                      <td className="px-4 py-2">
-                        {req.user?.name || 'Unknown'} <br /> 
-                        <span className="text-sm text-gray-500">{req.user?.email || 'N/A'}</span>
-                      </td>
-                      <td className="px-4 py-2">{req.wasteType}</td>
-                      <td className="px-4 py-2">{new Date(req.createdAt).toLocaleDateString()}</td>
-                      <td className="px-4 py-2">{req.address}</td>
-                     
-                      <td className="px-4 py-2">
-                        {req.imageUrl ? (
-                          <img
-                            src={getImageUrl(req.imageUrl)}
-                            alt="Waste pickup request"
-                            className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity"
-                            onClick={() => handleImageClick(req.imageUrl)}
-                          />
-                        ) : (
-                          <span className="text-gray-400 text-sm">No image</span>
-                        )}
-                      </td>
-                      
-                      <td className="px-4 py-2">
-                        {req.isAssigned ? ( 
-                          <>
-                            {req.staff?.name || 'Unknown'} <br />
-                            <span className="text-sm text-gray-500">{req.staff?.phone || 'N/A'}</span>
-                          </>
-                        ) : (
-                          <span className="text-red-500">Not Assigned</span>
-                        )}
-                      </td>
-                      
-                      <td className="px-4 py-2">
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handleAssignClick(req._id)}
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
-                            title="Assign staff"
-                            aria-label="Assign staff to this request"
-                          >
-                            <MdOutlineAssignment color='green' size={24} />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(req._id)}
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
-                            title="Delete request"
-                            aria-label="Delete this pickup request"
-                          >
-                            <MdDelete color='red' size={24}/>
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                
+  <tbody>
+    {loading ? (
+      <tr>
+                    <td colSpan="8" className="text-center py-6">
+                      <div className="flex justify-center items-center space-x-2">
+                        <div className="animate-spin h-6 w-6 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                        <span className="text-gray-600">Loading...</span>
+                      </div>
+                    </td>
+                  </tr>
+    ) : requests.filter((req) => req.status === "pending").length === 0 ? (
+      <tr>
+        <td colSpan="7" className="text-center py-6 text-gray-500">
+          No pickup requests found.
+        </td>
+      </tr>
+    ) : (
+      requests
+        .filter((req) => req.status === "pending")
+        .map((req) => (
+          <tr key={req._id} className="border-t border-gray-200 hover:bg-gray-50">
+            <td className="px-4 py-2">
+              {req.user?.name || "Unknown"} <br />
+              <span className="text-sm text-gray-500">
+                {req.user?.email || "N/A"}
+              </span>
+            </td>
+            <td className="px-4 py-2">{req.wasteType}</td>
+            <td className="px-4 py-2">
+              {new Date(req.createdAt).toLocaleDateString()}
+            </td>
+            <td className="px-4 py-2">{req.address}</td>
+            <td className="px-4 py-2">
+              {req.imageUrl ? (
+                <img
+                  src={getImageUrl(req.imageUrl)}
+                  alt="Waste pickup request"
+                  className="w-20 h-20 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => handleImageClick(req.imageUrl)}
+                />
+              ) : (
+                <span className="text-gray-400 text-sm">No image</span>
+              )}
+            </td>
+            <td className="px-4 py-2">
+              {req.isAssigned ? (
+                <>
+                  {req.staff?.name || "Unknown"} <br />
+                  <span className="text-sm text-gray-500">
+                    {req.staff?.phone || "N/A"}
+                  </span>
+                </>
+              ) : (
+                <span className="text-red-500">Not Assigned</span>
+              )}
+            </td>
+            <td className="px-4 py-2">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleAssignClick(req._id)}
+                  className="p-1 hover:bg-gray-100 rounded transition-colors"
+                >
+                  <MdOutlineAssignment color="green" size={24} />
+                </button>
+                <button
+                  onClick={() => handleDelete(req._id)}
+                  className="p-1 hover:bg-gray-100 rounded transition-colors"
+                >
+                  <MdDelete color="red" size={24} />
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))
+    )}
+  </tbody>
               </table>
             </div>
 
@@ -306,7 +310,7 @@ const AllPickup = () => {
               ))}
             </div>
           </>
-        )}
+        
 
         {showAssign && (
           <AssignPickup

@@ -36,8 +36,8 @@ export const assignStaff = async (req, res) => {
     const staff = await Staff.findById(staffId);
     if (!staff) return res.status(404).json({ message: 'Staff not found' });
 
-    pickup.staff = staffId; // ✅ Correct field name as per schema
-    pickup.status = 'scheduled'; // ✅ Must match enum in schema
+    pickup.staff = staffId; // Correct field name as per schema
+    pickup.status = 'scheduled'; // Must match enum in schema
     pickup.isAssigned = true; // Optional: track assignment flag
     await pickup.save();
 
@@ -50,7 +50,6 @@ export const assignStaff = async (req, res) => {
     res.status(500).json({ message: 'Failed to assign staff' });
   }
 };
-
 
 // Get all pickup requests (admin)
 export const getAllPickupRequests = async (req, res) => {

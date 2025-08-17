@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AdminNavbar from '../../components/AdminNavbar';
+import CircularProgress from "@mui/material/CircularProgress";
 
 const AllStaffPage = () => {
   const [staffList, setStaffList] = useState([]);
@@ -27,11 +28,7 @@ const AllStaffPage = () => {
     <AdminNavbar/>
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4 text-center">All Pickup Staff</h2>
-      {loading ? (
-        <p className="text-center">Loading...</p>
-      ) : staffList.length === 0 ? (
-        <p className="text-center">No staff found.</p>
-      ) : (
+    
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead>
@@ -44,24 +41,38 @@ const AllStaffPage = () => {
               </tr>
             </thead>
             <tbody>
-              {staffList.map((staff) => (
-                <tr key={staff._id} className="border-t">
-                  <td className="py-2 px-4 text-center">{staff.name}</td>
-                  <td className="py-2 px-4  text-center">{staff.phone}</td>
-                  <td className="py-2 px-4  text-center">{staff.assignedZone}</td>
-                  <td className="py-2 px-4  text-center">
-                    {staff.isAvailable ? (
-                      <span className="text-green-600 font-medium">Available</span>
-                    ) : (
-                      <span className="text-red-600 font-medium">Unavailable</span>
-                    )}
+              {loading ? (
+                <tr>
+                  <td colSpan="4" className="py-10 text-center">
+                    <CircularProgress color="primary" size={50} />
                   </td>
                 </tr>
-              ))}
+              ) : staffList.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="py-4 text-center text-gray-600">
+                    No staff found.
+                  </td>
+                </tr>
+              ) : (
+                staffList.map((staff) => (
+                  <tr key={staff._id} className="border-t">
+                    <td className="py-2 px-4 text-center">{staff.name}</td>
+                    <td className="py-2 px-4 text-center">{staff.phone}</td>
+                    <td className="py-2 px-4 text-center">{staff.assignedZone}</td>
+                    <td className="py-2 px-4 text-center">
+                      {staff.isAvailable ? (
+                        <span className="text-green-600 font-medium">Available</span>
+                      ) : (
+                        <span className="text-red-600 font-medium">Unavailable</span>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
-      )}
+      
     </div>
     </>
   );
